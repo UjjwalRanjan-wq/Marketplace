@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+
+# Raw data files (large CSVs / XLSXs — keep out of repo for size)
+*.xlsx
+*.csv
+
+# PDF source files
+*.pdf
+
+# Logs
+*.log
+npm-debug.log*
