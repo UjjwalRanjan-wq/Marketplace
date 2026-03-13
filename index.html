@@ -428,6 +428,10 @@
   .senti-bar-wrap { display:flex; height:10px; border-radius:5px; overflow:hidden; gap:1px; min-width:80px; }
   .senti-bar-neg { background:#e74c3c; } .senti-bar-neu { background:#bdc3c7; } .senti-bar-pos { background:#27ae60; }
 
+  /* ── TOC page ── */
+  .toc-row { cursor:pointer; transition:background 0.15s; }
+  .toc-row:hover { background:#e8f4ff !important; }
+
   /* ── FAQ page ── */
   .faq-section { background:#fff; border-radius:12px; padding:24px 28px; margin-bottom:20px; box-shadow:var(--shadow); }
   .faq-section h2 { font-size:1.05rem; font-weight:700; color:var(--walmart-blue); margin-bottom:16px; padding-bottom:10px; border-bottom:2px solid #e8f4ff; }
@@ -465,6 +469,7 @@
 
 <!-- NAV TABS -->
 <div class="nav-tabs">
+  <button class="tab-btn" onclick="showTab('toc')"><span class="tab-icon">📑</span>Table of Contents</button>
   <button class="tab-btn active" onclick="showTab('exec')"><span class="tab-icon">🏠</span>Executive Overview</button>
   <button class="tab-btn" onclick="showTab('explorer')"><span class="tab-icon">🔍</span>Track Explorer</button>
   <button class="tab-btn" onclick="showTab('trackmap')"><span class="tab-icon">🗺️</span>Track Map</button>
@@ -493,73 +498,6 @@
       <li><span>🟡 Orders & Fulfillment (2,801 signals, 8%)</span> — Mostly covered by AOP (27002, 27016, 27017, 27027, 27036).</li>
       <li><span>🟡 Emerging: Seller Risk &amp; Suspension (95 Reddit posts, accelerating)</span> — Compliance reviews, delisting, and suspension transparency have no direct AOP coverage and are trending up on Reddit.</li>
     </ul>
-  </div>
-
-  <!-- TABLE OF CONTENTS -->
-  <div class="narrative-card" style="background:linear-gradient(135deg,#f0f6ff,#f8fafd);border-color:#0071CE55;margin-top:16px">
-    <h3 style="color:#0071CE;margin-bottom:12px">📑 Dashboard Guide — What's Inside</h3>
-    <p style="color:#6b7c93;font-size:0.85rem;margin-bottom:16px">Navigate the tabs above to explore each layer of seller feedback intelligence. Below is a quick reference for leadership.</p>
-    <table style="width:100%;border-collapse:collapse;font-size:0.84rem">
-      <thead>
-        <tr style="background:#0071CE11;text-align:left">
-          <th style="padding:10px 14px;border-bottom:2px solid #0071CE33;width:25%;color:#0071CE">Tab</th>
-          <th style="padding:10px 14px;border-bottom:2px solid #0071CE33;color:#0071CE">What It Shows</th>
-          <th style="padding:10px 14px;border-bottom:2px solid #0071CE33;width:22%;color:#0071CE">Key Audience</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr style="cursor:pointer" onclick="showTab('exec');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[0].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🏠 Executive Overview</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">Top-line KPIs, pain theme summary, volume trends, and severity breakdown across all sources. <em>Start here.</em></td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">VP / Director / PM Leads</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('explorer');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[1].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🔍 Track Explorer</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">Drill into any of the 10 product tracks → topics → subtopics with signal volumes and representative verbatims.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Product Managers</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('trackmap');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[2].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🗺️ Track Map</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">Visual heatmap of all tracks by volume and severity — quickly identify the hottest pain areas.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Leadership / Strategy</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('aop');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[3].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🎯 FY27 AOP Alignment</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">Maps seller pain signals to FY27 AOP initiatives — highlights gaps where seller pain has no planned coverage.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">VP / Director / Planning</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('papercuts');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[4].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🩹 Paper Cuts Intelligence</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">Top 15 recurring friction issues scored by recurrence, persistence, breadth, and source diversity. Sortable and filterable.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">PM Leads / Engineering</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('verbatim');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[5].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">💬 Verbatim Evidence</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">Raw seller quotes from ASUS and Reddit — searchable, filterable by track, sentiment, and severity.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Researchers / Analysts</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('crosswalk');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[6].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🗂️ Track Crosswalk</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">How signals from each source (ASUS, Reddit, Doorbell, VoS, PER) map to standardized tracks — data lineage and QA stats.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Data / Analytics Teams</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('vos');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[7].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🎤 Voice of Seller</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">139 escalated issues from NPS/OSAT surveys, MAT calls, and CBB sessions — with status tracking and resolution ETAs.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">VP / Director / PM Leads</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('per');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[8].classList.add('active')">
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;font-weight:700">🚨 Product ER</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#444">194 Jira-tracked escalations from PRODER — status, severity, blocked issues, and cross-signal comparison with VoS and Paper Cuts.</td>
-          <td style="padding:10px 14px;border-bottom:1px solid #e0e6ef;color:#6b7c93">PM Leads / Engineering</td>
-        </tr>
-        <tr style="cursor:pointer" onclick="showTab('faq');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[9].classList.add('active')">
-          <td style="padding:10px 14px;font-weight:700">❓ FAQ / Methodology</td>
-          <td style="padding:10px 14px;color:#444">How data is sourced, mapped to tracks, scored, and what the limitations are. Reference for anyone reviewing this dashboard.</td>
-          <td style="padding:10px 14px;color:#6b7c93">All Stakeholders</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 
   <!-- KPI ROW -->
@@ -1617,6 +1555,89 @@
         <li><strong>No deduplication:</strong> The same seller issue may appear in multiple sources (ASUS + Reddit + VoS). Cross-signal charts highlight this but don't deduplicate.</li>
       </ul>
     </div>
+  </div>
+</div>
+
+<!-- ══════════════ VIEW: TABLE OF CONTENTS ══════════════ -->
+<div id="view-toc" class="view">
+  <div class="narrative-card" style="background:linear-gradient(135deg,#f0f6ff,#f8fafd);border-color:#0071CE55">
+    <h3 style="color:#0071CE;margin-bottom:4px">📑 Dashboard Guide</h3>
+    <p style="color:#6b7c93;font-size:0.85rem">A quick reference of every section in this dashboard. Click any row to navigate directly.</p>
+  </div>
+
+  <div style="padding:8px 0">
+    <table style="width:100%;border-collapse:collapse;font-size:0.84rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06)">
+      <thead>
+        <tr style="background:linear-gradient(135deg,#041f41,#0071CE);color:#fff;text-align:left">
+          <th style="padding:14px 18px;width:4%">#</th>
+          <th style="padding:14px 18px;width:22%">Section</th>
+          <th style="padding:14px 18px">Description</th>
+          <th style="padding:14px 18px;width:18%">Key Audience</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="toc-row" onclick="showTab('exec');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[1].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">1</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🏠 Executive Overview</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">Top-line KPIs, pain theme summary, volume trends, and severity breakdown across 33,500+ signals. <strong>Start here.</strong></td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">VP / Directors</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('explorer');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[2].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">2</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🔍 Track Explorer</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">Drill into 10 product tracks → topics → subtopics with signal volumes and representative seller verbatims.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Product Managers</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('trackmap');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[3].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">3</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🗺️ Track Map</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">Visual treemap heatmap of all tracks by volume and severity — spot the hottest pain areas at a glance.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Leadership / Strategy</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('aop');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[4].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">4</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🎯 FY27 AOP Alignment</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">Maps seller pain signals to FY27 AOP initiatives — highlights coverage gaps where pain has no planned fix.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">VP / Planning</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('papercuts');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[5].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">5</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🩹 Paper Cuts Intelligence</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">Top 15 recurring friction issues scored by recurrence, persistence, breadth, and source diversity.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">PM Leads / Engineering</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('verbatim');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[6].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">6</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">💬 Verbatim Evidence</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">Raw seller quotes from ASUS and Reddit — searchable and filterable by track, sentiment, and severity.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Researchers / Analysts</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('crosswalk');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[7].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">7</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🗂️ Track Crosswalk</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">How signals from each source (ASUS, Reddit, Doorbell, VoS, PER) map to standardized tracks — data lineage and QA stats.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">Data / Analytics</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('vos');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[8].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">8</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🎤 Voice of Seller</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">139 escalated issues from NPS/OSAT surveys, MAT calls, and CBB sessions — status tracking and resolution ETAs.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">VP / Directors / PM Leads</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('per');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[9].classList.add('active')">
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#0071CE;font-weight:700">9</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;font-weight:700">🚨 Product ER</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#444">194 Jira-tracked escalations (PRODER) — status, severity, blocked issues, and cross-signal comparison with VoS and Paper Cuts.</td>
+          <td style="padding:12px 18px;border-bottom:1px solid #e0e6ef;color:#6b7c93">PM Leads / Engineering</td>
+        </tr>
+        <tr class="toc-row" onclick="showTab('faq');document.querySelector('.tab-btn.active').classList.remove('active');document.querySelectorAll('.tab-btn')[10].classList.add('active')">
+          <td style="padding:12px 18px;color:#0071CE;font-weight:700">10</td>
+          <td style="padding:12px 18px;font-weight:700">❓ FAQ / Methodology</td>
+          <td style="padding:12px 18px;color:#444">Data sources, track mapping logic, scoring methodology, and known limitations.</td>
+          <td style="padding:12px 18px;color:#6b7c93">All Stakeholders</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
