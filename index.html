@@ -2650,15 +2650,23 @@ PAPER_CUTS.forEach(pc => {
 function showTab(tab) {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + tab).classList.add('active');
-  event.target.classList.add('active');
+  const targetView = document.getElementById('view-' + tab);
+  if (targetView) targetView.classList.add('active');
+  // Highlight the clicked button — works even when called programmatically
+  const clickedBtn = document.querySelector('.tab-btn[onclick*="\'' + tab + '\'"]');
+  if (clickedBtn) clickedBtn.classList.add('active');
+  else if (event && event.currentTarget) event.currentTarget.classList.add('active');
 
-  if (tab === 'explorer') initExplorer();
-  if (tab === 'trackmap') initTrackMap();
-  if (tab === 'aop') initAOP();
+  if (tab === 'explorer')  initExplorer();
+  if (tab === 'trackmap')  initTrackMap();
+  if (tab === 'aop')       initAOP();
   if (tab === 'papercuts') initPaperCuts();
-  if (tab === 'verbatim') initVerbatim();
+  if (tab === 'verbatim')  initVerbatim();
   if (tab === 'crosswalk') initCrosswalk();
+  // ── New tabs ──────────────────────────────────────────────
+  if (tab === 'vos') initVoSView();
+  if (tab === 'per') initPERView();
+  // FAQ needs no init — pure HTML/accordion
 }
 
 // ═══════════════════════════════════════════════════════════════
@@ -3029,6 +3037,8 @@ function initPaperCuts() {
   renderPCSmallMultiples();
   renderPCTop3PerTrack();
   renderPCTop10ExecTable();
+  // Enhanced: sentiment, severity, risk watchlist charts
+  setTimeout(initEnhancedPCCharts, 200);
 }
 
 function getFilteredPaperCuts() {
@@ -3581,6 +3591,9 @@ function initCrosswalk() {
     });
     covDiv.appendChild(grid);
   }
+  // ── VoS & PER crosswalk entries + QA stats ──────────────────
+  renderCrosswalkQA();
+  renderVoSPERCrosswalkEntries();
 }
 
 
@@ -4056,36 +4069,7 @@ function toggleFAQ(el) {
   }
 }
 
-// ─── Enhanced showTab to init new views
-const _origShowTab = typeof showTab === 'function' ? showTab : null;
-function showTab(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  const view = document.getElementById('view-' + name);
-  if (view) view.classList.add('active');
-  document.querySelectorAll('.tab-btn').forEach(b => {
-    if ((name === 'exec' && b.textContent.includes('Executive')) ||
-        (name === 'explorer' && b.textContent.includes('Track Explorer')) ||
-        (name === 'trackmap' && b.textContent.includes('Track Map')) ||
-        (name === 'aop' && b.textContent.includes('AOP')) ||
-        (name === 'papercuts' && b.textContent.includes('Paper Cuts')) ||
-        (name === 'verbatim' && b.textContent.includes('Verbatim')) ||
-        (name === 'crosswalk' && b.textContent.includes('Crosswalk')) ||
-        (name === 'vos' && b.textContent.includes('Voice of Seller')) ||
-        (name === 'per' && b.textContent.includes('Product ER')) ||
-        (name === 'faq' && b.textContent.includes('FAQ'))) {
-      b.classList.add('active');
-    }
-  });
-  // Init on first visit
-  if (name === 'vos') initVoSView();
-  if (name === 'per') initPERView();
-  if (name === 'exec' && typeof initExec === 'function') initExec();
-  if (name === 'papercuts' && typeof initPaperCuts === 'function') initPaperCuts();
-  if (name === 'verbatim' && typeof initVerbatim === 'function') initVerbatim();
-  if (name === 'crosswalk' && typeof initCrosswalk === 'function') initCrosswalk();
-  if (name === 'explorer' && typeof initExplorer === 'function') initExplorer();
-}
+// ─── New tabs wired into original showTab (no duplicate — handled below)
 
 // ─── Update Executive Overview KPIs to reflect new sources
 document.addEventListener('DOMContentLoaded', () => {
@@ -4306,41 +4290,13 @@ function renderEnhancedPCTable() {
   });
 }
 
-// ── Patch renderPCTable to add sentiment/severity columns ────────
-const _origRenderPCTable = typeof renderPCTable === 'function' ? renderPCTable : null;
-const _patchedRenderPC = function() {
-  // Call original if exists
-  if (_origRenderPCTable) _origRenderPCTable();
-
-  // Patch: update rows to include sentiment/severity
-  const tbody = document.getElementById('pcTableBody');
-  if (!tbody) return;
-  // We'll re-render with new columns after a slight delay
-};
-
-// ── Patch initPaperCuts to also init enhanced charts ─────────────
-const _origInitPaperCuts = typeof initPaperCuts === 'function' ? initPaperCuts : null;
-function initPaperCutsEnhanced() {
-  if (_origInitPaperCuts) _origInitPaperCuts();
-  setTimeout(initEnhancedPCCharts, 300);
-}
-// Override
-if (typeof initPaperCuts !== 'undefined') {
-  const _old = initPaperCuts;
-  initPaperCuts = function() {
-    _old();
-    setTimeout(initEnhancedPCCharts, 400);
-  };
-}
-
-// ── Update PC filter to handle sentiment ─────────────────────────
-const _origRenderPCTableFn = typeof renderPCTable === 'function' ? renderPCTable.toString() : '';
-// We can't easily override without re-implementing; add a post-filter hook
+// ── Sentiment filter dropdowns wire up on DOMContentLoaded ──────
 document.addEventListener('DOMContentLoaded', function() {
-  // Re-wire filter dropdowns to also trigger enhanced chart update
   ['pcFilterSenti','pcFilterSrc2'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', () => { renderPCTable(); });
+  });
+});
   });
 });
 
@@ -4438,15 +4394,7 @@ function renderCrosswalkQA() {
   qaDiv.appendChild(overall);
 }
 
-// ── Patch initCrosswalk to also render QA stats + new sources ──
-const _origInitCrosswalk = typeof initCrosswalk === 'function' ? initCrosswalk : null;
-if (_origInitCrosswalk) {
-  initCrosswalk = function() {
-    _origInitCrosswalk();
-    renderCrosswalkQA();
-    renderVoSPERCrosswalkEntries();
-  };
-}
+
 
 function renderVoSPERCrosswalkEntries() {
   const tbody = document.getElementById('crosswalkBody');
